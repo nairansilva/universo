@@ -1,0 +1,38 @@
+  <po-page-default p-title="Dashboards">
+    <po-divider p-label="Consulta de Títulos"></po-divider>
+    <div class="po-row">
+      <po-widget class="po-md-12 po-lg-4 po-mt-2" p-title="Títulos em Aberto">
+        <div class="po-font-subtitle po-text-center po-text-color-10">
+          $1.500,00
+        </div>
+        <div class="po-text-center po-font-text-bold">{{ dataAtual() }}</div>
+      </po-widget>
+
+      <po-widget class="po-md-12 po-lg-4 po-mt-2" p-title="Títulos Baixados">
+        <div class="po-font-subtitle po-text-center po-text-color-10">
+          Credit card
+        </div>
+        <div class="po-text-center po-font-text-bold">{{ dataAtual() }}</div>
+      </po-widget>
+
+      <po-widget class="po-md-12 po-lg-4 po-mt-2" p-title="Títulos em Atraso">
+        <div class="po-font-subtitle po-text-center po-text-color-07">
+          $2.000,00
+        </div>
+        <div class="po-text-center po-font-text-bold">{{ dataAtual() }}</div>
+      </po-widget>
+    </div>
+
+    <po-divider p-label="Análise Geral"></po-divider>
+    <div class="po-row">
+      <po-chart
+        class="po-md-12 po-mt-2"
+        p-title="Contas a Pagar x Receber (Em R$)"
+        [p-options]="options"
+        [p-categories]="categories"
+        [p-series]="participationByCountryInWorldExports"
+        [p-type]="participationByCountryInWorldExportsType"
+      >
+      </po-chart>
+    </div>
+  </po-page-default>

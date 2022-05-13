@@ -9,11 +9,13 @@ import { NgModule } from '@angular/core';
 import { ProtheusLibCoreModule } from 'protheus-lib-core';
 import { ProductsComponent } from './components/products/products.component';
 import { ROUTES } from './app.routes';
+import { DashComponent } from './components/dash/dash.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductsComponent
+    ProductsComponent,
+    DashComponent
   ],
   imports: [
     BrowserModule,

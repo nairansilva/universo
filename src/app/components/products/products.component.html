@@ -1,5 +1,4 @@
 <div class="po-wrapper">
-  <po-toolbar p-title="Cadastro de Produtos"></po-toolbar>
 
   <!-- <po-menu [p-menus]="menus" [p-collapsed]="true"></po-menu> -->
 
@@ -11,8 +10,11 @@
     [p-actions]="opcoesTela"
     [p-filters]="filtroBuscaAvancada"
   >
+  <!-- [p-height]="400"
+  [p-infinite-scroll]="true" -->
     <po-table
       #tableProdutos
+      [p-sort]="true"
       [p-columns]="colunasDaTabela"
       [p-items]="itensDaTabela"
       [p-actions]="acoesTabela"

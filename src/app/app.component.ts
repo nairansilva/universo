@@ -10,7 +10,7 @@ import { PoMenuItem } from '@po-ui/ng-components';
 export class AppComponent implements OnInit {
   readonly menus: Array<PoMenuItem> = [
     { label: 'Home', link: "home", shortLabel:"Home", icon:"po-icon-home" },
-    { label: 'Análise de Dados', action: this.onClick.bind(this), shortLabel:"Analise", icon:"po-icon-chart-columns" },
+    { label: 'Análise de Dados', link: "dash", shortLabel:"Analise", icon:"po-icon-chart-columns" },
 //    { label: 'Sair', action: () => this.configService.callAppClose(), shortLabel: "Sair", icon:  },
   ];
 
