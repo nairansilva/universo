@@ -6,7 +6,6 @@ import { PoPageDynamicSearchModule, PoPageDynamicTableModule, PoTemplatesModule 
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { ProtheusLibCoreModule } from 'protheus-lib-core';
 import { ProductsComponent } from './components/products/products.component';
 import { ROUTES } from './app.routes';
 
@@ -33,7 +32,6 @@ import { ROUTES } from './app.routes';
       useHash: true,
       relativeLinkResolution: 'legacy'
     }),
-    // ProtheusLibCoreModule,
     RouterModule.forRoot([])
   ],
   providers: [],
