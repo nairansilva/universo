@@ -1,8 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PoDynamicFormComponent, PoDynamicFormField, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoPageAction, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
+import {
+  PoDynamicFormComponent,
+  PoDynamicFormField,
+  PoModalAction,
+  PoModalComponent,
+  PoNotificationService,
+  PoPageAction,
+  PoTableAction,
+  PoTableColumn,
+  PoTableComponent,
+} from '@po-ui/ng-components';
 import { QueryParamsType } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
 import { PoPageDynamicSearchFilters } from '@po-ui/ng-templates';
-import { ProAppConfigService } from 'protheus-lib-core';
 import { finalize } from 'rxjs/operators';
 import { Produtos } from './shared/produtos.model';
 import { ProdutosService } from './shared/produtos.service';
@@ -10,14 +19,11 @@ import { ProdutosService } from './shared/produtos.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-
   public colunasDaTabela: Array<PoTableColumn>;
   public itensDaTabela: Produtos[] = [];
-  public urlAPI: string =
-    'http://localhost:8080/rest/api/treinamento/v1/servicoProdutos';
   public filtroBuscaAvancada: Array<PoPageDynamicSearchFilters>;
   public opcoesTela: Array<PoPageAction> = [
     { label: 'Incluir', action: this.incluiProduto.bind(this) },
@@ -62,8 +68,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private produtosService: ProdutosService,
-    private poNotificatioService: PoNotificationService,
-    private configService: ProAppConfigService
+    private poNotificatioService: PoNotificationService
   ) {
     this.colunasDaTabela = this.retornaColuna();
     this.filtroBuscaAvancada = this.retornaBuscaAvançada();
@@ -72,7 +77,7 @@ export class ProductsComponent implements OnInit {
         property: 'codigo',
         label: 'Código do Produto',
         type: 'string',
-        gridColumns: 12
+        gridColumns: 12,
       },
       {
         property: 'descricao',
@@ -97,21 +102,12 @@ export class ProductsComponent implements OnInit {
       },
     ];
   }
-  readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', action: this.onClick.bind(this), shortLabel:"Home", icon:"po-icon-home" },
-    // { label: 'Análise de Dados', action: this.onClick.bind(this), shortLabel:"Analise", icon:"po-icon-chart-columns" },
-//    { label: 'Sair', action: () => this.configService.callAppClose(), shortLabel: "Sair", icon:  },
-  ];
 
   ngOnInit() {
-    // this.configService.loadAppConfig();
     this.itensDaTabela = [];
     this.getItens(1);
   }
 
-  teste(event: any){
-    console.log(event)
-  }
   getItens(page: number = 1) {
     this.carregandoTabela = true;
     if (page === 1) this.itensDaTabela = [];
@@ -122,14 +118,10 @@ export class ProductsComponent implements OnInit {
         this.itensDaTabela = this.itensDaTabela.concat(res.items);
       });
   }
+
   carregarMais(): void {
     this.page++;
     this.getItens(this.page);
-    console.log(this.filtrosAplicados);
-  }
-
-  private onClick() {
-    alert('Clicked in menu item');
   }
 
   salvarFormulario(): void {
@@ -138,33 +130,32 @@ export class ProductsComponent implements OnInit {
           .put(this.dynamicForm.value.codigo, this.dynamicForm.value)
           .subscribe(
             (res) => {
-              this.poNotificatioService.success("Produto Alterado Com Sucesso")
+              this.poNotificatioService.success('Produto Alterado Com Sucesso');
               this.getItens();
               this.poModal.close();
-              ;
             },
             (error) => {
-              this.poNotificatioService.error(error.error.errorMessage)
+              this.poNotificatioService.error(error.error.errorMessage);
             }
           )
       : this.produtosService.post(this.dynamicForm.value).subscribe(
           (res) => {
-            this.poNotificatioService.success("Produto Cadastrado Com Sucesso")
+            this.poNotificatioService.success('Produto Cadastrado Com Sucesso');
             this.getItens();
             this.poModal.close();
-            ;
           },
           (error) => {
-            this.poNotificatioService.error(error.error.errorMessage)
+            this.poNotificatioService.error(error.error.errorMessage);
           }
         );
-    console.log(this.dynamicForm);
   }
 
   buscaProduto(produto: string): void {
     this.filtrosAplicados = produto;
     this.page = 1;
-    produto.length > 0 ? this.filtrosAplicados = 'codigo=' + produto : this.filtrosAplicados = '';
+    produto.length > 0
+      ? (this.filtrosAplicados = 'codigo=' + produto)
+      : (this.filtrosAplicados = '');
 
     this.getItens(this.page);
   }
@@ -247,6 +238,4 @@ export class ProductsComponent implements OnInit {
     this.dynamicForm.form.reset();
     this.poModal?.open();
   }
-
-
 }
