@@ -1,7 +1,5 @@
 <div class="po-wrapper">
 
-  <!-- <po-menu [p-menus]="menus" [p-collapsed]="true"></po-menu> -->
-
   <po-page-dynamic-search
     p-title="Cadastro de Produto"
     (p-quick-search)="buscaProduto($event)"
@@ -22,7 +20,6 @@
       (p-show-more)="carregarMais()"
     ></po-table>
   </po-page-dynamic-search>
-<!-- </div> -->
 
 <po-modal
   p-title="Manutenção de Produtos"
@@ -38,66 +35,3 @@
 </po-modal>
 
 </div>
-<!-- <div class="container-head flex">
-  <div class="item-header">
-    <img src="../assets/img/logo_simhab.png" />
-  </div>
-  <div class="item-header">
-    <h1>Prefeitura Municipal de Louveira</h1>
-  </div>
-  <div class="item-header button-align">
-    <input type="button" value="Voltar" class="button">
-    <input type="button" value="Menu" class="button">
-  </div>
-</div>
-<div class="division-header flex">
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(238, 197, 55)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(155, 187, 59)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(53, 151, 83)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(61, 120, 184)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(46, 79, 149)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(153, 63, 135)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(163, 29, 85)"
-  ></div>
-  <div
-    class="division-header-itens"
-    style="background-color: rgb(224, 43, 55)"
-  ></div>
-</div>
-<div class="container-home flex">
-  <div class="home-item-login">
-    <form>
-      <h1 class="titulo-login">ACESSO</h1>
-      <h4 class="subtitulo-login">Prefeitura Municipal de Louveira</h4>
-      <div class="dados-loggin">
-        <input type="text" id="fname" name="fname" maxlength="11" placeholder="CPF">
-        <input type="password" id="lname" name="lname" placeholder="Senha">
-      </div>
-      <div class="confirm-loggin">
-        <a class="hyperlink-vazio" href="https://www.mozilla.org/pt-BR/"><label class="titulo-novo-usuario">Novo Usuário</label></a>
-        <br>
-        <input type="submit" value="Entrar" id="lconfirma" name="lconfirma">
-      </div>
-    </form>
-  </div>
-</div> -->

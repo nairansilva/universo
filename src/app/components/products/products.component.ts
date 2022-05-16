@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   PoDynamicFormComponent,
   PoDynamicFormField,
-  PoMenuItem,
+
   PoModalAction,
   PoModalComponent,
   PoNotificationService,
@@ -13,7 +13,6 @@ import {
 } from '@po-ui/ng-components';
 import { QueryParamsType } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
 import { PoPageDynamicSearchFilters } from '@po-ui/ng-templates';
-import { ProAppConfigService } from 'protheus-lib-core';
 import { finalize } from 'rxjs/operators';
 import { Produtos } from './shared/produtos.model';
 import { ProdutosService } from './shared/produtos.service';
@@ -26,8 +25,6 @@ import { ProdutosService } from './shared/produtos.service';
 export class ProductsComponent implements OnInit {
   public colunasDaTabela: Array<PoTableColumn>;
   public itensDaTabela: Produtos[] = [];
-  public urlAPI: string =
-    'http://localhost:8080/rest/api/treinamento/v1/servicoProdutos';
   public filtroBuscaAvancada: Array<PoPageDynamicSearchFilters>;
   public opcoesTela: Array<PoPageAction> = [
     { label: 'Incluir', action: this.incluiProduto.bind(this) },
@@ -56,7 +53,7 @@ export class ProductsComponent implements OnInit {
       label: 'Editar',
     },
     {
-      action: () => alert('Excluir'),
+      action: this.excluirProduto.bind(this),
       icon: 'po-icon-delete',
       label: 'Excluir',
     },
@@ -72,8 +69,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private produtosService: ProdutosService,
-    private poNotificatioService: PoNotificationService,
-    private configService: ProAppConfigService
+    private poNotificatioService: PoNotificationService
   ) {
 
 
@@ -114,26 +110,12 @@ export class ProductsComponent implements OnInit {
       },
     ];
   }
-  readonly menus: Array<PoMenuItem> = [
-    {
-      label: 'Home',
-      action: this.onClick.bind(this),
-      shortLabel: 'Home',
-      icon: 'po-icon-home',
-    },
-    // { label: 'Análise de Dados', action: this.onClick.bind(this), shortLabel:"Analise", icon:"po-icon-chart-columns" },
-    //    { label: 'Sair', action: () => this.configService.callAppClose(), shortLabel: "Sair", icon:  },
-  ];
 
   ngOnInit() {
-    // this.configService.loadAppConfig();
     this.itensDaTabela = [];
     this.getItens(1);
   }
 
-  teste(event: any) {
-    console.log(event);
-  }
   getItens(page: number = 1) {
     this.carregandoTabela = true;
     if (page === 1) this.itensDaTabela = [];
@@ -144,14 +126,10 @@ export class ProductsComponent implements OnInit {
         this.itensDaTabela = this.itensDaTabela.concat(res.items);
       });
   }
+
   carregarMais(): void {
     this.page++;
     this.getItens(this.page);
-    console.log(this.filtrosAplicados);
-  }
-
-  private onClick() {
-    alert('Clicked in menu item');
   }
 
   salvarFormulario(): void {
@@ -178,7 +156,6 @@ export class ProductsComponent implements OnInit {
             this.poNotificatioService.error(error.error.errorMessage);
           }
         );
-    console.log(this.dynamicForm);
   }
 
   buscaProduto(produto: string): void {
@@ -273,4 +250,24 @@ export class ProductsComponent implements OnInit {
     this.dynamicForm.form.reset();
     this.poModal?.open();
   }
+
+  excluirProduto(linha: Produtos) {
+
+    if (!window.confirm("Confirma Exclusão do Produto?")) {
+      return
+    }
+
+    this.carregandoTabela = true;
+    this.produtosService
+      .delete(linha.codigo)
+      .pipe(finalize(() => (this.carregandoTabela = false)))
+      .subscribe(
+        (res) => {
+          this.poNotificatioService.success('Produto deletado com Sucesso');
+          this.buscaProduto(linha.codigo);
+        },
+        (error) => this.poNotificatioService.error('Erro ao excluir o Produto')
+      );
+  }
+
 }
