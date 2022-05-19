@@ -1,0 +1,140 @@
+#include "tlpp-core.th"
+
+namespace servico.produtos
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} servicoProdutosData
+	Retorna os dados dos Produtos.
+	@type		class
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+CLASS servicoProdutosData FROM FWAdapterBaseV2
+
+	Public method new() as Object
+	Public method get()
+EndClass
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} servicoProdutosData::new() as Object
+	Obtem uma nova instancia da classe servicoProdutosData
+	@type		method
+	@version	12.1.33
+	@author 	Totvs
+	@since		16/05/2022
+	@return 	Object, Nova instancia da classe NotificationsProtheusData
+/*/
+//------------------------------------------------------------------------------
+Method new(lList) as Object CLASS servicoProdutosData
+	default lList := .T.
+    _Super:new( "GET", lList )
+Return Self
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} servicoProdutosData::get
+	Efetua a consulta de Produtos.
+	@type		method
+	@version	12.1.33
+	@author		Danilo Salve / Totvs
+	@since		15/07/2021
+	@param		nPage		, numeric	, Número da página que será retornada
+	@param		nPageSize	, numeric	, Quantidade de registros por pagina
+	@param		aURLFilter	, array		, Lista de Filtros no padrão do FWAdapterBaseV2
+	@param		cFields		, character	, Lista de campos que devem ser retornados
+	@param		cId			, character	, Id da notificação
+	@param		cSort		, character	, Ordernação do Response
+/*/
+//------------------------------------------------------------------------------
+Method get(nPage as Numeric, nPageSize as Numeric, aURLFilter as Array, cFields as Character, cId as Character, cSort as Character) CLASS servicoProdutosData
+	Local aArea 	as Array
+	Local cWhere	as Character
+
+    Default nPage := 1 
+    Default nPageSize := 10
+    Default cFields := '' 
+    Default cId := ''
+    Default cSort := ''
+    Default aURLFilter := {};
+
+	aArea := GetArea()
+
+	AddMapFieldsSB1( self, .T. )
+
+	::setPage( nPage )
+	::setPageSize( nPageSize )
+	::SetQuery( GetQuerySB1() )
+
+	If Empty( cId ) .And. Len( aURLFilter ) > 0 
+		::SetUrlFilter( aURLFilter )
+	Endif
+
+	If !Empty( cSort )
+		::SetOrderQuery( cSort )
+	EndIf
+	
+	If !Empty( cFields )
+		::SetFields( cFields )
+	Endif
+
+	cWhere := " SB1.B1_FILIAL = '" + FwXFilial("SB1") + "'"
+
+	If !Empty( cId )
+		cWhere += "AND SB1.B1_COD = '" + cId + "'"
+	Endif
+
+	cWhere += " AND SB1.D_E_L_E_T_ = ' '"
+
+	::SetWhere( cWhere )
+	::SetOrder( SqlOrder( SB1->( IndexKey(1) ) ) ) 
+
+	If ::Execute()
+		::FillGetResponse()
+	EndIf
+
+	RestArea( aArea )
+	aSize( aArea, 0 )
+Return Nil
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} AddMapFieldsSB1
+    Cria o Mapa de campos Protheus x API para as Notificações.
+	@type		function
+    @author		Totvs
+    @since		15/07/2021
+    @version	12.1.33
+	@param		oSelf	, Object	, Objeto com herança da classe FWAdapterBaseV2
+	@param		isOnline, Logical	, Adicionar campos no padrão OnLine ou Sync
+
+/*/
+//------------------------------------------------------------------------------
+Function AddMapFieldsSB1(oSelf as Object, isOnline as Logical)
+    
+    oSelf:AddMapFields("filial"             , "B1_FILIAL"	, .T., .F., { "B1_FILIAL"  , 'C', GetSx3Cache("B1_FILIAL", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("codigo"             , "B1_COD"		, .T., .F., { "B1_COD"  , 'C', GetSx3Cache("B1_COD", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("descricao"          , "B1_DESC"		, .T., .F., { "B1_DESC"  , 'C', GetSx3Cache("B1_DESC", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("tipo"           	, "B1_TIPO"		, .T., .F., { "B1_TIPO"    , 'C', GetSx3Cache("B1_TIPO", "X3_TAMANHO")   , 0 })
+	oSelf:AddMapFields("unidade"             , "B1_UM"		, .T., .F., { "B1_UM"    , 'C', GetSx3Cache("B1_UM", "X3_TAMANHO")   , 0 })
+	oSelf:AddMapFields("armazem"            , "B1_LOCPAD"	, .T., .F., { "B1_LOCPAD"  , 'C', GetSx3Cache("B1_LOCPAD", "X3_TAMANHO")	, 0 })
+
+Return Nil
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} GetQuery
+    Monta a expressão SQL para consulta das Notificações.
+	@type		function
+	@return		Character, Expressão SQL
+    @author		Totvs
+    @since		15/07/2021
+    @version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Function GetQuerySB1() as Character
+	Local cQuery AS CHARACTER
+
+	cQuery := " SELECT #QueryFields#"
+	cQuery += " FROM " + RetSqlName("SB1") + " SB1 "
+	cQuery += " WHERE #QueryWhere#"
+
+Return cQuery

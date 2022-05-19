@@ -1,0 +1,312 @@
+#include 'tlpp-core.th'
+
+namespace servico.produtos
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} servicoProdutos
+	Serviço para CRUD de produtos - Angular + Protheus.
+	@type		class
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Class servicoProdutos
+
+	Data jResponse  as Json
+	Data nPage      as Numeric
+	Data nPageSize  as Numeric
+	Data aFilters	  as Array
+	Data oService   as Object
+
+	Public Method new() as Object
+	Static Method getQueryParam()
+  Static Method setResponse()
+
+	@Get("/api/treinamento/v1/servicoProdutos")
+	Public Method getAll() as Logical
+
+	@Get("/api/treinamento/v1/servicoProdutos/:id")
+	Public Method getById() as Logical
+
+	@Post("/api/treinamento/v1/servicoProdutos/")
+	Public Method postProdutos() as Logical
+
+	@Put("/api/treinamento/v1/servicoProdutos/:id")
+	Public Method putProdutos() as Logical
+
+	@Delete("/api/treinamento/v1/servicoProdutos/:id")
+	Public Method deleteProdutos() as Logical
+
+
+EndClass
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} new
+	Inicializa a Classe.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method new() as Object Class servicoProdutos
+	::nPage     := 1
+	::nPageSize := 10
+	::oService  := Nil
+	::aFilters	:= {}
+	::jResponse := JsonObject():new()
+Return self
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} getAll
+	Retorna uma lista com todos os produtos.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method getAll() as Logical Class servicoProdutos
+	local oData as Object
+
+  oData := servicoProdutosData():new()
+
+	::aFilters := {}
+
+	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
+
+	Varinfo("Filtros", ::aFilters)
+	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters)
+
+	if oData:lOk
+		::jResponse := oData:GetJSONResponse()
+	Else
+		::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+	EndIf
+
+	::setResponse( ::jResponse )
+Return .T.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} getById
+	Retorna um produto.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method getById() as Logical Class servicoProdutos
+	local oData as Object
+	local jPath as Json
+	local cId   as Character
+
+  oData := servicoProdutosData():new(.F.)
+	jPath := oRest:getPathParamsRequest()
+	cId   := ''
+
+	::aFilters  := {}
+
+	if ( jPath <> Nil )
+		cId := jPath[ 'id' ]
+		if ( valtype(cId) == 'U' )
+			cId := ''
+		endif
+	endif
+
+	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
+
+	Varinfo("Filtros", ::aFilters)
+	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters, , cId)
+
+	if oData:lOk
+		::jResponse := oData:GetJSONResponse()
+	Else
+		::jResponse := SetRestFault(oData:GetCode(), oData:GetMessage())
+	EndIf
+
+	::setResponse( ::jResponse )
+Return .T.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} postProdutos
+	Realiza a Inclusão de um Produto.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method postProdutos() as Logical Class servicoProdutos
+	Local cBody	  as Character
+	Local jBody   as Json
+	Local lReturn as Logical
+
+  cBody   := oRest:getBodyRequest()
+	jBody   := JsonObject():New()
+	lReturn := .T.
+
+	jBody:fromJson(DecodeUtf8(cBody))
+
+	if (SB1->(DbSeek(xFilial("SB1") + jBody["codigo"])))
+		SetRestFault(400, "Produto jah cadastrado" )
+	else
+		RecLock("SB1", .T.)
+			SB1->B1_FILIAL	= xFilial("SB1")
+			SB1->B1_COD		= jBody["codigo"]
+			SB1->B1_DESC	= jBody["descricao"]
+			SB1->B1_TIPO	= jBody["tipo"]
+			SB1->B1_LOCPAD	= jBody["armazem"]
+		MsUnlock()
+
+		::setResponse(jBody)
+	EndIf
+
+return lReturn
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} putProdutos
+	Realiza a Alteração de um Produto.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method putProdutos() as Logical Class servicoProdutos
+	Local cBody	  as Character
+	Local jBody   as Json
+	Local lReturn as Logical
+	Local cId     as Character
+	Local jPath   as Json
+
+	cBody	  := oRest:getBodyRequest()
+	jBody   := JsonObject():New()
+	lReturn	:= .T.
+	cId		  := ""
+	jPath   := oRest:getPathParamsRequest()
+
+	if ( jPath <> Nil )
+		cId := jPath[ 'id' ]
+		if ( valtype(cId) == 'U' )
+			cId := ''
+		endif
+	endif
+
+	jBody:fromJson(DecodeUtf8(cBody))
+
+	if (SB1->(DbSeek(xFilial("SB1") + cId)))
+		RecLock("SB1", .F.)
+			SB1->B1_FILIAL	= xFilial("SB1")
+			SB1->B1_COD		= jBody["codigo"]
+			SB1->B1_DESC	= jBody["descricao"]
+			SB1->B1_TIPO	= jBody["tipo"]
+			SB1->B1_UM		= jBody["unidade"]
+			SB1->B1_LOCPAD	= jBody["armazem"]
+		MsUnlock()
+
+		::setResponse(jBody)
+	else
+		SetRestFault(404, "Produto nao encontrado" )
+	EndIf
+
+return lReturn
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} deleteProdutos
+	Realiza a Deleção de um Produto.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method deleteProdutos() as Logical Class servicoProdutos
+	Local cBody	  as Character
+	Local jBody   as Json
+	Local lReturn as Logical
+	Local cId     as Character
+	Local jPath   as Json
+
+	cBody	  := oRest:getBodyRequest()
+	jBody   := JsonObject():New()
+	lReturn	:= .T.
+	cId		  := ""
+	jPath   := oRest:getPathParamsRequest()
+
+	if ( jPath <> Nil )
+		cId := jPath[ 'id' ]
+		if ( valtype(cId) == 'U' )
+			cId := ''
+		endif
+	endif
+
+	jBody:fromJson(DecodeUtf8(cBody))
+
+	if (SB1->(DbSeek(xFilial("SB1") + cId)))
+		RecLock("SB1", .F.)
+			SB1->(Dbdelete())
+		MsUnlock()
+
+		::setResponse(jBody)
+	else
+		SetRestFault(404, "Produto nao encontrado" )
+	EndIf
+
+return lReturn
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} getQueryParam
+	Retorna uma lista com todos os produtos.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+	@param		nPage		, numeric	, Número da página que será retornada
+	@param		nPageSize	, numeric	, Quantidade de registros por pagina
+	@param		aFilters	, array		, Array com os demais filtros
+/*/
+//------------------------------------------------------------------------------
+Method getQueryParam(nPage as Numeric, nPageSize as Numeric, aFilters as Array) Class servicoProdutos
+
+	If (oRest:getQueryRequest():GetJsonText('codigo') != 'null')
+		aAdd(aFilters, {'codigo',oRest:getQueryRequest():GetJsonText('codigo')})
+	EndIf
+
+	If (oRest:getQueryRequest():GetJsonText('descricao') != 'null')
+		aAdd(aFilters, {'descricao',oRest:getQueryRequest():GetJsonText('descricao')})
+	EndIf
+
+	If (oRest:getQueryRequest():GetJsonText('tipo') != 'null')
+		aAdd(aFilters, {'tipo',oRest:getQueryRequest():GetJsonText('tipo')})
+	EndIf
+
+	If (oRest:getQueryRequest():GetJsonText('pageSize') != 'null')
+		nPageSize := Val(oRest:getQueryRequest():GetJsonText('pageSize'))
+	Else
+		nPageSize := 10
+	EndIf
+
+	If (oRest:getQueryRequest():GetJsonText('page') != 'null')
+		nPage := Val(oRest:getQueryRequest():GetJsonText('page'))
+	Else
+		nPage := 1
+	Endif
+
+Return
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} setResponse
+	Gera o retorno da Requisição
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+	@param		jResponse		, Caracter	, Json retornado
+/*/
+//------------------------------------------------------------------------------
+Method setResponse(jResponse as character) Class servicoProdutos
+	oRest:setKeyHeaderResponse('Content-Type','application/json')
+	oRest:setResponse( jResponse )
+Return

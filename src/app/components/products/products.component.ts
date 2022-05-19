@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PoDynamicFormComponent, PoDynamicFormField, PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoPageAction, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
+import { PoDynamicFormComponent, PoDynamicFormField, PoModalAction, PoModalComponent, PoNotificationService, PoPageAction, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
 import { QueryParamsType } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
 import { PoPageDynamicSearchFilters } from '@po-ui/ng-templates';
 import { ProAppConfigService } from 'protheus-lib-core';
@@ -16,8 +16,6 @@ export class ProductsComponent implements OnInit {
 
   public colunasDaTabela: Array<PoTableColumn>;
   public itensDaTabela: Produtos[] = [];
-  public urlAPI: string =
-    'http://localhost:8080/rest/api/treinamento/v1/servicoProdutos';
   public filtroBuscaAvancada: Array<PoPageDynamicSearchFilters>;
   public opcoesTela: Array<PoPageAction> = [
     { label: 'Incluir', action: this.incluiProduto.bind(this) },
@@ -97,21 +95,12 @@ export class ProductsComponent implements OnInit {
       },
     ];
   }
-  readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', action: this.onClick.bind(this), shortLabel:"Home", icon:"po-icon-home" },
-    // { label: 'Análise de Dados', action: this.onClick.bind(this), shortLabel:"Analise", icon:"po-icon-chart-columns" },
-//    { label: 'Sair', action: () => this.configService.callAppClose(), shortLabel: "Sair", icon:  },
-  ];
 
   ngOnInit() {
-    // this.configService.loadAppConfig();
     this.itensDaTabela = [];
     this.getItens(1);
   }
 
-  teste(event: any){
-    console.log(event)
-  }
   getItens(page: number = 1) {
     this.carregandoTabela = true;
     if (page === 1) this.itensDaTabela = [];
@@ -158,7 +147,6 @@ export class ProductsComponent implements OnInit {
             this.poNotificatioService.error(error.error.errorMessage)
           }
         );
-    console.log(this.dynamicForm);
   }
 
   buscaProduto(produto: string): void {

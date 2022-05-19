@@ -18,7 +18,7 @@
     "@angular/platform-browser": "~12.0.1",
     "@angular/platform-browser-dynamic": "~12.0.1",
     "@angular/router": "~12.0.1",
-    "@po-ui/ng-components": "5.4",
+    "@po-ui/ng-components": "~5.20.0",
     "@po-ui/ng-templates": "^5.20.0",
     "angular-erp-integration": "^1.2.0",
     "protheus-lib-core": "^8.0.0",
