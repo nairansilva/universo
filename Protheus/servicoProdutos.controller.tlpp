@@ -76,7 +76,6 @@ Method getAll() as Logical Class servicoProdutos
 
 	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
 
-	Varinfo("Filtros", ::aFilters)
 	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters)
 
 	if oData:lOk
@@ -190,10 +189,11 @@ Method putProdutos() as Logical Class servicoProdutos
 	if ( jPath <> Nil )
 		cId := jPath[ 'id' ]
 		if ( valtype(cId) == 'U' )
-			cId := ''
+			cId := ''//
 		endif
 	endif
 
+  //Ajustar Tamanho do cId com TamSX3
 	jBody:fromJson(DecodeUtf8(cBody))
 
 	if (SB1->(DbSeek(xFilial("SB1") + cId)))
@@ -249,7 +249,7 @@ Method deleteProdutos() as Logical Class servicoProdutos
 			SB1->(Dbdelete())
 		MsUnlock()
 
-		::setResponse(jBody)
+		::setResponse(jBody) //Alterar o retorno da mensagem
 	else
 		SetRestFault(404, "Produto nao encontrado" )
 	EndIf
