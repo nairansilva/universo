@@ -33,4 +33,8 @@ export class ProdutosService {
   post(formulario: Produtos): Observable<Produtos>{
     return this.httpClient.post<Produtos>(`${this.url}`, JSON.stringify(formulario), this.httpOptions)
   }
+
+  delete(id: string): Observable<Produtos> {
+    return this.httpClient.delete<Produtos>(`${this.url}/${id}`);
+  }
 }

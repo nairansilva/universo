@@ -44,7 +44,7 @@ export class ProductsComponent implements OnInit {
       label: 'Editar',
     },
     {
-      action: () => alert('Excluir'),
+      action: this.excluirProduto.bind(this),
       icon: 'po-icon-delete',
       label: 'Excluir',
     },
@@ -236,5 +236,23 @@ export class ProductsComponent implements OnInit {
     this.poModal?.open();
   }
 
+  excluirProduto(linha: Produtos) {
+
+    if (!window.confirm("Confirma Exclusão do Produto?")) {
+      return
+    }
+
+    this.carregandoTabela = true;
+    this.produtosService
+      .delete(linha.codigo)
+      .pipe(finalize(() => (this.carregandoTabela = false)))
+      .subscribe(
+        (res) => {
+          this.poNotificatioService.success('Produto deletado com Sucesso');
+          this.buscaProduto(linha.codigo);
+        },
+        (error) => this.poNotificatioService.error('Erro ao excluir o Produto')
+      );
+  }
 
 }

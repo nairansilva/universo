@@ -1,27 +1,30 @@
-# Treinamento
+# Integrando uma aplicação Angular com Protheus utilizando componentes PO-UI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.1.
+Projeto utilizado para demonstração a Integração entre Protheus e Angular no Universo Totvs 2022
 
-## Development server
+## 🚀 Primeiros Passos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Compilar o serviço de CRUD de Produtos contidos na pasta Protheus
+* Configurar o servidor rest Protheus utilizando o endereço definido no fonte produtos.service.ts. Por padrão, será utilizado o http://localhost:8080/rest. 
+* Abrir o diretório do projeto Angular e realizar a instalação através do comando [npm install][df1]
+* Subir o servidor de teste através do comando [ng build][df2]
 
-## Code scaffolding
+## 🛠️ Construído com
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Tecnologias e Conceitos utilizados no desenvolvimento: 
 
-## Build
+* [Angular](https://angular.io/) - Framework para desenvolvimento Web
+* [TLPP](https://tdn.totvs.com/pages/viewpage.action?pageId=334340072/) - Linguagem de Programação Utilizada no Backend da Aplicação
+* [Porta Multi Protocolo - MPP](https://tdn.totvs.com/display/tec/Application+Server+-+Porta+Multiprotocolo) - Porta Multi Protocolo
+* [REST 2.0](https://tdn.totvs.com/pages/viewpage.action?pageId=185747842) - REST 2.0 Protheus
+* [FwCallApp](https://tdn.totvs.com/display/framework/FwCallApp+-+Abrindo+aplicativos+Web+no+Protheus) - Função utilizada para abrir aplicativos Angular no Protheus
+* [PO-UI](https://po-ui.io/) - Biblioteca de Componentes Angulas by Totvs
+* [Tema Totvs PO-UI](https://github.com/totvs/po-theme-totvs) - Tema padrão da Totvs utilizado com PO-UI
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## ✒️ Autores
+* Izac Ciszevski
+* Nairan Alves Silva
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[df1]: <https://docs.npmjs.com/cli/v6/commands/npm-install>
+[df2]: <https://angular.io/cli/build>
