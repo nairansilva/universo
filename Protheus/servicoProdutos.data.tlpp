@@ -51,9 +51,9 @@ Method get(nPage as Numeric, nPageSize as Numeric, aURLFilter as Array, cFields 
 	Local aArea 	as Array
 	Local cWhere	as Character
 
-    Default nPage := 1
+    Default nPage := 1 
     Default nPageSize := 10
-    Default cFields := ''
+    Default cFields := '' 
     Default cId := ''
     Default cSort := ''
     Default aURLFilter := {};
@@ -66,14 +66,14 @@ Method get(nPage as Numeric, nPageSize as Numeric, aURLFilter as Array, cFields 
 	::setPageSize( nPageSize )
 	::SetQuery( GetQuerySB1() )
 
-	If Empty( cId ) .And. Len( aURLFilter ) > 0
+	If Empty( cId ) .And. Len( aURLFilter ) > 0 
 		::SetUrlFilter( aURLFilter )
 	Endif
 
 	If !Empty( cSort )
 		::SetOrderQuery( cSort )
 	EndIf
-
+	
 	If !Empty( cFields )
 		::SetFields( cFields )
 	Endif
@@ -87,7 +87,7 @@ Method get(nPage as Numeric, nPageSize as Numeric, aURLFilter as Array, cFields 
 	cWhere += " AND SB1.D_E_L_E_T_ = ' '"
 
 	::SetWhere( cWhere )
-	::SetOrder( SqlOrder( SB1->( IndexKey(1) ) ) )
+	::SetOrder( SqlOrder( SB1->( IndexKey(1) ) ) ) 
 
 	If ::Execute()
 		::FillGetResponse()
@@ -110,13 +110,13 @@ Return Nil
 /*/
 //------------------------------------------------------------------------------
 Function AddMapFieldsSB1(oSelf as Object, isOnline as Logical)
-
-  oSelf:AddMapFields("filial"             , "B1_FILIAL"	, .T., .F., { "B1_FILIAL" , 'C', GetSx3Cache("B1_FILIAL", "X3_TAMANHO")   , 0 })
-	oSelf:AddMapFields("codigo"             , "B1_COD"		, .T., .F., { "B1_COD"    , 'C', GetSx3Cache("B1_COD"   , "X3_TAMANHO")   , 0 })
-	oSelf:AddMapFields("descricao"          , "B1_DESC"		, .T., .F., { "B1_DESC"   , 'C', GetSx3Cache("B1_DESC"  , "X3_TAMANHO")   , 0 })
-	oSelf:AddMapFields("tipo"           	  , "B1_TIPO"		, .T., .F., { "B1_TIPO"   , 'C', GetSx3Cache("B1_TIPO"  , "X3_TAMANHO")   , 0 })
-	oSelf:AddMapFields("unidade"            , "B1_UM"		  , .T., .F., { "B1_UM"     , 'C', GetSx3Cache("B1_UM"    , "X3_TAMANHO")   , 0 })
-	oSelf:AddMapFields("armazem"            , "B1_LOCPAD"	, .T., .F., { "B1_LOCPAD" , 'C', GetSx3Cache("B1_LOCPAD", "X3_TAMANHO")	  , 0 })
+    
+    oSelf:AddMapFields("filial"             , "B1_FILIAL"	, .T., .F., { "B1_FILIAL"  , 'C', GetSx3Cache("B1_FILIAL", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("codigo"             , "B1_COD"		, .T., .F., { "B1_COD"  , 'C', GetSx3Cache("B1_COD", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("descricao"          , "B1_DESC"		, .T., .F., { "B1_DESC"  , 'C', GetSx3Cache("B1_DESC", "X3_TAMANHO") , 0 })
+	oSelf:AddMapFields("tipo"           	, "B1_TIPO"		, .T., .F., { "B1_TIPO"    , 'C', GetSx3Cache("B1_TIPO", "X3_TAMANHO")   , 0 })
+	oSelf:AddMapFields("unidade"             , "B1_UM"		, .T., .F., { "B1_UM"    , 'C', GetSx3Cache("B1_UM", "X3_TAMANHO")   , 0 })
+	oSelf:AddMapFields("armazem"            , "B1_LOCPAD"	, .T., .F., { "B1_LOCPAD"  , 'C', GetSx3Cache("B1_LOCPAD", "X3_TAMANHO")	, 0 })
 
 Return Nil
 

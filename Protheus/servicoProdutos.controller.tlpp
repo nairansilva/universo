@@ -21,7 +21,7 @@ Class servicoProdutos
 
 	Public Method new() as Object
 	Static Method getQueryParam()
-  Static Method setResponse()
+	Static Method setResponse()
 
 	@Get("/api/treinamento/v1/servicoProdutos")
 	Public Method getAll() as Logical
@@ -76,6 +76,7 @@ Method getAll() as Logical Class servicoProdutos
 
 	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
 
+	Varinfo("Filtros", ::aFilters)
 	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters)
 
 	if oData:lOk
@@ -159,7 +160,8 @@ Method postProdutos() as Logical Class servicoProdutos
 			SB1->B1_LOCPAD	= jBody["armazem"]
 		MsUnlock()
 
-		::setResponse(jBody)
+	oRest:setResponse(jBody)
+
 	EndIf
 
 return lReturn
@@ -189,11 +191,10 @@ Method putProdutos() as Logical Class servicoProdutos
 	if ( jPath <> Nil )
 		cId := jPath[ 'id' ]
 		if ( valtype(cId) == 'U' )
-			cId := ''//
+			cId := ''
 		endif
 	endif
 
-  //Ajustar Tamanho do cId com TamSX3
 	jBody:fromJson(DecodeUtf8(cBody))
 
 	if (SB1->(DbSeek(xFilial("SB1") + cId)))
@@ -206,7 +207,8 @@ Method putProdutos() as Logical Class servicoProdutos
 			SB1->B1_LOCPAD	= jBody["armazem"]
 		MsUnlock()
 
-		::setResponse(jBody)
+	oRest:setResponse(jBody)
+	
 	else
 		SetRestFault(404, "Produto nao encontrado" )
 	EndIf
@@ -249,7 +251,7 @@ Method deleteProdutos() as Logical Class servicoProdutos
 			SB1->(Dbdelete())
 		MsUnlock()
 
-		::setResponse(jBody) //Alterar o retorno da mensagem
+	oRest:setResponse(cBody)
 	else
 		SetRestFault(404, "Produto nao encontrado" )
 	EndIf
@@ -308,5 +310,5 @@ Return
 //------------------------------------------------------------------------------
 Method setResponse(jResponse as character) Class servicoProdutos
 	oRest:setKeyHeaderResponse('Content-Type','application/json')
-	oRest:setResponse( jResponse )
+	oRest:setResponse(jResponse)
 Return
