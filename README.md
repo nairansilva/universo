@@ -20,6 +20,7 @@ Tecnologias e Conceitos utilizados no desenvolvimento:
 * [FwCallApp](https://tdn.totvs.com/display/framework/FwCallApp+-+Abrindo+aplicativos+Web+no+Protheus) - Função utilizada para abrir aplicativos Angular no Protheus
 * [PO-UI](https://po-ui.io/) - Biblioteca de Componentes Angulas by Totvs
 * [Tema Totvs PO-UI](https://github.com/totvs/po-theme-totvs) - Tema padrão da Totvs utilizado com PO-UI
+* [FwAdapterBaseV2](https://tdn.totvs.com/display/framework/09.+FWAdapterBaseV2) - Classe facilitadora de criação de serviços Rest
 
 ## ✒️ Autores
 * Izac Ciszevski
