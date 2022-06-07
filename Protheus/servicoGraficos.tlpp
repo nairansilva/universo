@@ -1,0 +1,103 @@
+#include 'tlpp-core.th'
+
+namespace servico.graficos
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} servicoGraficos
+	Serviço para simular a geração de um Json para gráficos em PO-IU
+	@type		class
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Class servicoGraficos
+
+	Data jResponse  as Json
+
+	Public Method new() as Object
+	Static Method setResponse()
+
+	@Get("/api/treinamento/v1/consultaModulos")
+	Public Method getModulos() as Logical
+
+	// @Get("/api/treinamento/v1/consulta/")
+	// Public Method getById() as Logical
+
+EndClass
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} new
+	Inicializa a Classe.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method new() as Object Class servicoGraficos
+	::jResponse := JsonObject():new()
+Return self
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} getModulos
+	Retorna uma lista de Módulos.
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+/*/
+//------------------------------------------------------------------------------
+Method getModulos() as Logical Class servicoGraficos
+	Local oJsonOptions := JsonObject():New()
+	Local oJsonSeries := JsonObject():New()
+	Local aJsonSeries := {}
+
+	//Define o Título do Gráfico
+	::jResponse["title"] := "Módulos Utilizados"
+
+	//Monta as opções do EixoX
+	oJsonOptions["minRange"] := 0
+	oJsonOptions["maxRange"] := 100
+	oJsonOptions["gridLines"] := 5
+
+	//Adcionar o options no Json Final
+	::jResponse["options"] := oJsonOptions
+
+	//Adcionar o Eixo X
+	::jResponse["categories"] := {'2010', '2011', '2012', '2013', '2014', '2015'}
+
+	oJsonSeries['label'] := 'SIGAFAT'
+	oJsonSeries['data'] := {Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100)}
+
+	aAdd(aJsonSeries, oJsonSeries)
+	oJsonSeries := JsonObject():New()
+	oJsonSeries['label'] := 'SIGACOM'
+	oJsonSeries['data'] := {Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100)}
+
+	aAdd(aJsonSeries, oJsonSeries)
+	oJsonSeries := JsonObject():New()
+	oJsonSeries['label'] := 'SIGAEST'
+	oJsonSeries['data'] := {Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100),Randomize(10,100)}
+
+	aAdd(aJsonSeries, oJsonSeries)
+
+	::jResponse["series"] := aJsonSeries
+
+	::setResponse( ::jResponse )
+Return .T.
+
+//------------------------------------------------------------------------------
+/*/{Protheus.doc} setResponse
+	Gera o retorno da Requisição
+	@type		Method
+	@author		Totvs
+	@since		16/05/2022
+	@version	12.1.33
+	@param		jResponse		, Caracter	, Json retornado
+/*/
+//------------------------------------------------------------------------------
+Method setResponse(jResponse as json) Class servicoGraficos
+	oRest:setKeyHeaderResponse('Content-Type','application/json')
+	oRest:setResponse(jResponse)
+Return
