@@ -13,4 +13,8 @@ export class DashService {
 
   constructor(private httpClient: HttpClient) {}
 
+  getModulos(): Observable<any>{
+    const url = "http://localhost:8080/rest/api/treinamento/v1/consultaModulos"
+    return this.httpClient.get<any>(`${url}`,)
+  }
 }
