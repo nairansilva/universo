@@ -7,7 +7,7 @@ Projeto utilizado para demonstração a Integração entre Protheus e Angular no
 * Compilar o serviço de CRUD de Produtos contidos na pasta Protheus
 * Configurar o servidor rest Protheus utilizando o endereço definido no fonte produtos.service.ts. Por padrão, será utilizado o http://localhost:8080/rest. 
 * Abrir o diretório do projeto Angular e realizar a instalação através do comando [npm install][df1]
-* Subir o servidor de teste através do comando [ng build][df2]
+* Subir o servidor de teste através do comando [ng serve][df2]
 
 ## 🛠️ Construído com
 
@@ -28,4 +28,4 @@ Tecnologias e Conceitos utilizados no desenvolvimento:
 
 
 [df1]: <https://docs.npmjs.com/cli/v6/commands/npm-install>
-[df2]: <https://angular.io/cli/build>
+[df2]: <https://angular.io/cli/serve>
