@@ -10,12 +10,11 @@
 >
   <po-table
     #tableProdutos
-    [p-height]="400"
-    [p-infinite-scroll]="true"
     [p-columns]="colunasDaTabela"
     [p-items]="itensDaTabela"
     [p-actions]="acoesTabela"
     [p-loading]="carregandoTabela"
+    [p-sort]="true"
     (p-show-more)="carregarMais()"
   ></po-table>
 </po-page-dynamic-search>
