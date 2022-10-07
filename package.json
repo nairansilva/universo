@@ -21,8 +21,6 @@
     "@po-ui/ng-components": "~5.20.0",
     "@po-ui/ng-templates": "^5.20.0",
     "@totvs/po-theme": "^5.20.0",
-    "angular-erp-integration": "^1.2.0",
-    "protheus-lib-core": "^8.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
