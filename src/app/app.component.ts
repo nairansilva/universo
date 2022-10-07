@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PoMenuItem } from '@po-ui/ng-components';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,16 +8,8 @@ import { PoMenuItem } from '@po-ui/ng-components';
 })
 export class AppComponent implements OnInit {
   readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', link: "home", shortLabel:"Home", icon:"po-icon-home" },
-    { label: 'Análise de Dados', link: "dash", shortLabel:"Analise", icon:"po-icon-chart-columns" },
+    { label: 'Home', link: 'home', shortLabel: 'Home', icon: 'po-icon-home' }
   ];
 
-  ngOnInit(): void {
-
-  }
-
-  private onClick() {
-    alert('Clicked in menu item');
-  }
-
+  ngOnInit(): void {}
 }

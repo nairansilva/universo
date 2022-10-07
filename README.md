@@ -28,4 +28,4 @@ Tecnologias e Conceitos utilizados no desenvolvimento:
 
 
 [df1]: <https://docs.npmjs.com/cli/v6/commands/npm-install>
-[df2]: <https://angular.io/cli/build>
+[df2]: <https://angular.io/cli/serve>

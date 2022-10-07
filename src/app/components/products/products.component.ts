@@ -150,7 +150,6 @@ export class ProductsComponent implements OnInit {
   }
 
   buscaProduto(produto: string): void {
-    this.filtrosAplicados = produto;
     this.page = 1;
     produto.length > 0 ? this.filtrosAplicados = 'codigo=' + produto : this.filtrosAplicados = '';
 
