@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { PoDynamicFormComponent, PoDynamicFormField, PoModalAction, PoModalComponent, PoNotificationService, PoPageAction, PoTableAction, PoTableColumn, PoTableComponent } from '@po-ui/ng-components';
 import { QueryParamsType } from '@po-ui/ng-components/lib/components/po-table/po-table-base.component';
 import { PoPageDynamicSearchFilters } from '@po-ui/ng-templates';
-import { ProAppConfigService } from 'protheus-lib-core';
 import { finalize } from 'rxjs/operators';
 import { Produtos } from './shared/produtos.model';
 import { ProdutosService } from './shared/produtos.service';
@@ -60,9 +59,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private produtosService: ProdutosService,
-    private poNotificatioService: PoNotificationService,
-    private configService: ProAppConfigService
-  ) {
+    private poNotificatioService: PoNotificationService  ) {
     this.colunasDaTabela = this.retornaColuna();
     this.filtroBuscaAvancada = this.retornaBuscaAvançada();
     this.formularioProduto = [
