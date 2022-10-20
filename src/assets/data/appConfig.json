@@ -3,5 +3,5 @@
   "version": "12",
   "versionAPI": "vFATA900-0.5.2",
   "productLine": "Protheus",
-  "api_baseUrl": ""
+  "api_baseUrl": "/"
 }
