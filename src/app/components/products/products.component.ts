@@ -108,6 +108,7 @@ export class ProductsComponent implements OnInit {
         this.itensDaTabela = this.itensDaTabela.concat(res.items);
       });
   }
+
   carregarMais(): void {
     this.page++;
     this.getItens(this.page);

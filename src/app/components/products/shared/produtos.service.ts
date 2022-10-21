@@ -9,7 +9,7 @@ import { ProdutosServiceModel } from './produtosService.model';
   providedIn: 'root'
 })
 export class ProdutosService {
-  private url = "http://localhost:8080/rest/api/treinamento/v1/servicoProdutos"
+  private url = "/api/treinamento/v1/servicoProdutos"
 
   httpOptions = {
     headers: new HttpHeaders({ 'content-Type': 'application/json' })

@@ -12,7 +12,16 @@ import {
   styleUrls: ['./dash.component.css'],
 })
 export class DashComponent implements OnInit {
- constructor() {}
+ constructor(private dashService:DashService) {}
+  dash:any;
+  type:PoChartType = PoChartType.Line;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dashService.getModulos().subscribe({
+      next: resposta => {
+        this.dash = resposta;
+        console.log(resposta)
+      }
+    })
+  }
 }
