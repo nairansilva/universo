@@ -30,8 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
-              "src/styles.css"
+              "node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
+              "node_modules/@totvs/po-theme/css/po-theme-default.min.css",
+              "node_modules/@po-ui/style/css/po-theme-core.min.css"
             ],
             "scripts": []
           },
@@ -98,14 +99,14 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
-              "src/styles.css"
+              "node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
+              "node_modules/@totvs/po-theme/css/po-theme-default.min.css",
+              "node_modules/@po-ui/style/css/po-theme-core.min.css"
             ],
             "scripts": []
           }
         }
       }
     }
-  },
-  "defaultProject": "treinamento"
+  }
 }

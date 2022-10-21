@@ -1,5 +1,3 @@
-<po-toolbar p-title="Cadastro de Produtos"></po-toolbar>
-
 <po-page-dynamic-search
   p-title="Cadastro de Produto"
   (p-quick-search)="buscaProduto($event)"
@@ -10,10 +8,13 @@
 >
   <po-table
     #tableProdutos
+    [p-height]="300"
+    [p-infinite-scroll]="true"
     [p-columns]="colunasDaTabela"
     [p-items]="itensDaTabela"
     [p-actions]="acoesTabela"
     [p-loading]="carregandoTabela"
+    [p-sort]="true"
     (p-show-more)="carregarMais()"
   ></po-table>
 </po-page-dynamic-search>

@@ -21,6 +21,7 @@ Tecnologias e Conceitos utilizados no desenvolvimento:
 * [PO-UI](https://po-ui.io/) - Biblioteca de Componentes Angulas by Totvs
 * [Tema Totvs PO-UI](https://github.com/totvs/po-theme-totvs) - Tema padrão da Totvs utilizado com PO-UI
 * [FwAdapterBaseV2](https://tdn.totvs.com/display/framework/09.+FWAdapterBaseV2) - Classe facilitadora de criação de serviços Rest
+* [Protheus Lib Core](https://www.npmjs.com/package/@totvs/protheus-lib-core) - Biblioteca do Framework Protheus para Angular
 
 ## ✒️ Autores
 * Izac Ciszevski
@@ -28,4 +29,4 @@ Tecnologias e Conceitos utilizados no desenvolvimento:
 
 
 [df1]: <https://docs.npmjs.com/cli/v6/commands/npm-install>
-[df2]: <https://angular.io/cli/build>
+[df2]: <https://angular.io/cli/serve>
