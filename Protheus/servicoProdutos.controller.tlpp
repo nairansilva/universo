@@ -16,7 +16,8 @@ Class servicoProdutos
 	Data jResponse  as Json
 	Data nPage      as Numeric
 	Data nPageSize  as Numeric
-	Data aFilters	  as Array
+	Data aFilters	as Array
+	Data cSort  	as Character
 	Data oService   as Object
 
 	Public Method new() as Object
@@ -38,6 +39,15 @@ Class servicoProdutos
 	@Delete("/api/treinamento/v1/servicoProdutos/:id")
 	Public Method deleteProdutos() as Logical
 
+	@Get("/api/treinamento/v1/teste/processes")
+	Public Method teste() as Logical
+
+	@Get("/api/treinamento/v1/teste/processes/:id")
+	Public Method testeId() as Logical
+
+	@Get("/api/treinamento/v1/teste/processes/:id/parameters")
+	Public Method testeIdParameter() as Logical
+
 
 EndClass
 
@@ -53,6 +63,7 @@ EndClass
 Method new() as Object Class servicoProdutos
 	::nPage     := 1
 	::nPageSize := 10
+	::cSort		:= ""
 	::oService  := Nil
 	::aFilters	:= {}
 	::jResponse := JsonObject():new()
@@ -74,10 +85,10 @@ Method getAll() as Logical Class servicoProdutos
 
 	::aFilters := {}
 
-	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
+	::getQueryParam(@::nPage, @::nPageSize, @::aFilters, @::cSort)
 
 	Varinfo("Filtros", ::aFilters)
-	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters)
+	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters, , , ::cSort)
 
 	if oData:lOk
 		::jResponse := oData:GetJSONResponse()
@@ -86,6 +97,18 @@ Method getAll() as Logical Class servicoProdutos
 	EndIf
 
 	::setResponse( ::jResponse )
+Return .T.
+
+Method teste() as Logical Class servicoProdutos
+	::setResponse( "{}" )
+Return .T.
+
+Method testeIdParameter() as Logical Class servicoProdutos
+	::setResponse( "{}" )
+Return .T.
+
+Method testeid() as Logical Class servicoProdutos
+	::setResponse( '{"processID":"process1","description":"Release new version"}' )
 Return .T.
 
 //------------------------------------------------------------------------------
@@ -115,10 +138,10 @@ Method getById() as Logical Class servicoProdutos
 		endif
 	endif
 
-	::getQueryParam(@::nPage, @::nPageSize, @::aFilters)
+	::getQueryParam(@::nPage, @::nPageSize, @::aFilters, @::cSort)
 
 	Varinfo("Filtros", ::aFilters)
-	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters, , cId)
+	::jResponse := oData:get(::nPage, ::nPageSize, ::aFilters, , cId, ::cSort)
 
 	if oData:lOk
 		::jResponse := oData:GetJSONResponse()
@@ -270,7 +293,7 @@ return lReturn
 	@param		aFilters	, array		, Array com os demais filtros
 /*/
 //------------------------------------------------------------------------------
-Method getQueryParam(nPage as Numeric, nPageSize as Numeric, aFilters as Array) Class servicoProdutos
+Method getQueryParam(nPage as Numeric, nPageSize as Numeric, aFilters as Array, cSort as Character) Class servicoProdutos
 
 	If (oRest:getQueryRequest():GetJsonText('codigo') != 'null')
 		aAdd(aFilters, {'codigo',oRest:getQueryRequest():GetJsonText('codigo')})
@@ -282,6 +305,12 @@ Method getQueryParam(nPage as Numeric, nPageSize as Numeric, aFilters as Array) 
 
 	If (oRest:getQueryRequest():GetJsonText('tipo') != 'null')
 		aAdd(aFilters, {'tipo',oRest:getQueryRequest():GetJsonText('tipo')})
+	EndIf
+
+	If (oRest:getQueryRequest():GetJsonText('order') != 'null')
+		cSort := oRest:getQueryRequest():GetJsonText('order')
+	Else
+		cSort := ''
 	EndIf
 
 	If (oRest:getQueryRequest():GetJsonText('pageSize') != 'null')

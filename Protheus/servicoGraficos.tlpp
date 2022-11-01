@@ -84,8 +84,25 @@ Method getModulos() as Logical Class servicoGraficos
 
 	::jResponse["series"] := aJsonSeries
 
+
+	::jResponse["teste"] := FWX3Titulo( 'A1_COD' )
+
 	::setResponse( ::jResponse )
 Return .T.
+
+Static Function Teste( )
+	
+	Local cTitulo
+	
+	dbSelectArea('SX3')
+	dbSetOrder(2)
+	
+	If dbSeek( 'A1_COD' )   
+		cTitulo := X3Titulo()
+	EndIf
+Return cTitulo
+
+
 
 //------------------------------------------------------------------------------
 /*/{Protheus.doc} setResponse

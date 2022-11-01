@@ -15,6 +15,7 @@
     [p-actions]="acoesTabela"
     [p-loading]="carregandoTabela"
     [p-sort]="true"
+    (p-sort-by)="ordenaColuna($event)"
     (p-show-more)="carregarMais()"
   ></po-table>
 </po-page-dynamic-search>

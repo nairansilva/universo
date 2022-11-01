@@ -50,6 +50,7 @@ export class ProductsComponent implements OnInit {
   ];
 
   private filtrosAplicados: string = '';
+  private orderQuery:string = '';
   private page: number = 1;
   private edicao = false;
 
@@ -102,7 +103,7 @@ export class ProductsComponent implements OnInit {
     this.carregandoTabela = true;
     if (page === 1) this.itensDaTabela = [];
     this.produtosService
-      .getAll(page, this.filtrosAplicados)
+      .getAll(page, this.filtrosAplicados, this.orderQuery)
       .pipe(finalize(() => (this.carregandoTabela = false)))
       .subscribe((res) => {
         this.itensDaTabela = this.itensDaTabela.concat(res.items);
@@ -117,6 +118,12 @@ export class ProductsComponent implements OnInit {
 
   private onClick() {
     alert('Clicked in menu item');
+  }
+
+  ordenaColuna(e:any):void {
+    this.orderQuery = e.type === 'descending' ? '-'+e.column.property : e.column.property;
+    this.getItens();
+    console.log(e)
   }
 
   salvarFormulario(): void {

@@ -17,9 +17,14 @@ export class ProdutosService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAll(page:number = 1, filtro:string = ''): Observable<ProdutosServiceModel>{
-    const filter = `?pageSize=50&page=${page}&${filtro}`
-    return this.httpClient.get<ProdutosServiceModel>(`${this.url}/${filter}`,)
+  getAll(
+    page: number = 1,
+    filtro: string = '',
+    order: string = ''
+  ): Observable<ProdutosServiceModel> {
+    filtro = order == '' ? filtro : filtro + '&order=' + order;
+    const filter = `?pageSize=50&page=${page}&${filtro}`;
+    return this.httpClient.get<ProdutosServiceModel>(`${this.url}/${filter}`);
   }
 
   getById(id:string): Observable<Produtos>{
